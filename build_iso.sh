@@ -55,7 +55,7 @@ cd $BUILD_DIR
 
 # Create chroot environment
 echo -e "${GREEN}Creating chroot environment...${NC}"
-debootstrap --arch amd64 --variant=minbase bullseye chroot http://deb.debian.org/debian/
+debootstrap --arch amd64 --variant=minbase jammy chroot http://archive.ubuntu.com/ubuntu/
 
 # Mount necessary filesystems
 mount --bind /dev chroot/dev
@@ -65,9 +65,9 @@ mount -t sysfs none chroot/sys
 
 # Create sources.list
 cat > chroot/etc/apt/sources.list << EOF
-deb http://deb.debian.org/debian bullseye main contrib non-free
-deb http://deb.debian.org/debian bullseye-updates main contrib non-free
-deb http://security.debian.org/debian-security bullseye-security main contrib non-free
+deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu jammy-security main restricted universe multiverse
 EOF
 
 # Copy AstroDistro files
@@ -149,8 +149,10 @@ menuentry "AstroDistro" {
 EOF
 
 # Copy kernel and initrd
-cp chroot/boot/vmlinuz-* iso/live/vmlinuz
-cp chroot/boot/initrd.img-* iso/live/initrd.img
+echo -e "${GREEN}Copying kernel and initrd...${NC}"
+KERNEL_VERSION=$(ls chroot/boot/vmlinuz-* | sort -V | tail -n1 | xargs basename | sed 's/vmlinuz-//')
+cp chroot/boot/vmlinuz-${KERNEL_VERSION} iso/live/vmlinuz
+cp chroot/boot/initrd.img-${KERNEL_VERSION} iso/live/initrd.img
 
 # Create filesystem
 echo -e "${GREEN}Creating filesystem...${NC}"
