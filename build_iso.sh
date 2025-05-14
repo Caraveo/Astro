@@ -114,6 +114,8 @@ EOF
 chmod +x chroot/opt/astrodistro/install.sh
 
 # Create system configuration
+echo -e "${GREEN}Creating system configuration...${NC}"
+mkdir -p chroot/etc/systemd/system/getty@tty1.service.d/
 cat > chroot/etc/systemd/system/getty@tty1.service.d/override.conf << EOF
 [Service]
 ExecStart=
