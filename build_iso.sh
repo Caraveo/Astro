@@ -137,6 +137,11 @@ echo -e "${GREEN}Creating ISO structure...${NC}"
 mkdir -p iso/boot/grub
 mkdir -p iso/live
 
+# Download kernel and initrd
+echo -e "${GREEN}Downloading kernel and initrd...${NC}"
+wget -O iso/live/vmlinuz https://cloud-images.ubuntu.com/noble/current/unpacked/vmlinuz
+wget -O iso/live/initrd.img https://cloud-images.ubuntu.com/noble/current/unpacked/initrd
+
 # Create grub config
 cat > iso/boot/grub/grub.cfg << EOF
 set timeout=5
@@ -147,12 +152,6 @@ menuentry "AstroDistro" {
     initrd /live/initrd.img
 }
 EOF
-
-# Copy kernel and initrd
-echo -e "${GREEN}Copying kernel and initrd...${NC}"
-KERNEL_VERSION=$(ls chroot/boot/vmlinuz-* | sort -V | tail -n1 | xargs basename | sed 's/vmlinuz-//')
-cp chroot/boot/vmlinuz-${KERNEL_VERSION} iso/live/vmlinuz
-cp chroot/boot/initrd.img-${KERNEL_VERSION} iso/live/initrd.img
 
 # Create filesystem
 echo -e "${GREEN}Creating filesystem...${NC}"
