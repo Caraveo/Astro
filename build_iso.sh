@@ -55,7 +55,7 @@ cd $BUILD_DIR
 
 # Create chroot environment
 echo -e "${GREEN}Creating chroot environment...${NC}"
-debootstrap --arch amd64 --variant=minbase jammy chroot http://archive.ubuntu.com/ubuntu/
+debootstrap --arch amd64 --variant=minbase noble chroot http://archive.ubuntu.com/ubuntu/
 
 # Mount necessary filesystems
 mount --bind /dev chroot/dev
@@ -65,9 +65,9 @@ mount -t sysfs none chroot/sys
 
 # Create sources.list
 cat > chroot/etc/apt/sources.list << EOF
-deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu jammy-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu noble-security main restricted universe multiverse
 EOF
 
 # Copy AstroDistro files
