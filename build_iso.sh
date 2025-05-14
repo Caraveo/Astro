@@ -20,6 +20,22 @@ fi
 echo -e "${GREEN}Installing build dependencies...${NC}"
 apt-get update
 apt-get install -y \
+    build-essential \
+    libncurses-dev \
+    bison \
+    flex \
+    libssl-dev \
+    libelf-dev \
+    libudev-dev \
+    libpci-dev \
+    libiberty-dev \
+    autoconf \
+    fakeroot \
+    bc \
+    xz-utils \
+    wget \
+    curl \
+    git \
     debootstrap \
     squashfs-tools \
     xorriso \
