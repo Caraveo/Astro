@@ -137,10 +137,34 @@ echo -e "${GREEN}Creating ISO structure...${NC}"
 mkdir -p iso/boot/grub
 mkdir -p iso/live
 
-# Download kernel and initrd
-echo -e "${GREEN}Downloading kernel and initrd...${NC}"
-wget -O iso/live/vmlinuz https://cloud-images.ubuntu.com/noble/current/unpacked/vmlinuz
-wget -O iso/live/initrd.img https://cloud-images.ubuntu.com/noble/current/unpacked/initrd
+echo -e "${GREEN}Building Linux kernel and initrd...${NC}"
+
+# Set kernel version
+KERNEL_VERSION="6.9"
+
+# Download and extract kernel source
+cd $BUILD_DIR
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${KERNEL_VERSION}.tar.xz
+tar -xf linux-${KERNEL_VERSION}.tar.xz
+cd linux-${KERNEL_VERSION}
+
+# Copy existing config or create default
+cp /boot/config-$(uname -r) .config
+make olddefconfig
+
+# Compile kernel and modules
+make -j$(nproc)
+make modules_install INSTALL_MOD_PATH=../chroot
+
+# Install kernel
+make install INSTALL_PATH=../chroot/boot
+
+# Generate initrd.img inside chroot
+chroot ../chroot /bin/bash -c "update-initramfs -c -k ${KERNEL_VERSION}"
+
+# Copy kernel and initrd to ISO directory
+cp ../chroot/boot/vmlinuz-${KERNEL_VERSION} ../iso/live/vmlinuz
+cp ../chroot/boot/initrd.img-${KERNEL_VERSION} ../iso/live/initrd.img
 
 # Create grub config
 cat > iso/boot/grub/grub.cfg << EOF
