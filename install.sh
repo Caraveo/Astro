@@ -22,36 +22,25 @@ apt-get update
 apt-get install -y \
     python3 \
     python3-pip \
-    python3-gi \
-    python3-gi-cairo \
-    gir1.2-gtk-3.0 \
-    gir1.2-gdk-3.0 \
-    gir1.2-glib-2.0 \
-    python3-cairo \
-    python3-cairo-dev \
     python3-dev \
     build-essential \
     git \
     wget \
     curl \
     portaudio19-dev \
-    python3-pyaudio \
-    python3-numpy \
-    python3-scipy \
-    python3-pandas \
-    python3-matplotlib \
-    python3-seaborn \
-    python3-sklearn \
-    python3-tensorflow \
-    python3-torch \
-    python3-transformers \
-    python3-sounddevice \
-    python3-soundfile \
-    python3-webrtcvad \
-    python3-speechrecognition \
-    python3-pocketsphinx \
-    python3-vosk \
-    python3-ollama
+    libssl-dev \
+    libffi-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    zlib1g-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libgirepository1.0-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    gir1.2-gtk-3.0 \
+    gir1.2-gdk-3.0 \
+    gir1.2-glib-2.0
 
 # Install Ollama
 echo -e "${GREEN}Installing Ollama...${NC}"
@@ -69,6 +58,7 @@ cp README.md /opt/astrodistro/
 
 # Install Python dependencies
 echo -e "${GREEN}Installing Python dependencies...${NC}"
+pip3 install --upgrade pip setuptools wheel
 pip3 install -r requirements.txt
 
 # Install systemd service
