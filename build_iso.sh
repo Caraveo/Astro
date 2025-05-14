@@ -143,7 +143,6 @@ echo -e "${GREEN}Building Linux kernel and initrd...${NC}"
 KERNEL_VERSION="6.9"
 
 # Download and extract kernel source
-cd $BUILD_DIR
 wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${KERNEL_VERSION}.tar.xz
 tar -xf linux-${KERNEL_VERSION}.tar.xz
 cd linux-${KERNEL_VERSION}
